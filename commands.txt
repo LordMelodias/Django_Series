@@ -1,0 +1,4 @@
+// Migrate to a Specific Migration
+Command1: python manage.py showmigrations appname
+Command2: python manage.py migrate appname migrationname
+
