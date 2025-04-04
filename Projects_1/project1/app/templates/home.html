@@ -1,0 +1,62 @@
+<!-- templates/home.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body onload="loadUserProfile()">
+    <div class="container">
+        <h2>Welcome, <span id="username"></span>!</h2>
+        <div class="profile-container">
+            <div class="profile-image-wrapper" id="profileImageWrapper">
+                <span id="defaultLetter"></span>
+                <img id="profileImage" src="" alt="Profile Image">
+                <div class="image-actions">
+                    <button id="viewImage" class="action-btn">View</button>
+                    <button id="updateImage" class="action-btn">Update</button>
+                </div>
+            </div>
+            <div class="user-details">
+                <p>Email: <span id="email"></span></p>
+                <p>Mobile: <span id="mobile"></span></p>
+                <p>User-Device: <span id="userAgent">{{ device }}</span></p> <!-- Added -->
+            </div>
+        </div>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Image Update Modal -->
+    <div class="modal" id="imageUpdateModal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h3>Update Profile Image</h3>
+            <div class="drag-drop-area" id="dragDropArea">
+                <p>Drag & Drop or <span class="browse-link">Browse</span> to upload</p>
+                <input type="file" id="profileImageInput" accept="image/*" hidden>
+            </div>
+            <div class="image-preview" id="imagePreview" style="display: none;">
+                <img id="previewImage" src="" alt="Preview">
+                <div class="preview-actions">
+                    <button id="cancelUpload" class="cancel-btn">Cancel</button>
+                    <button id="confirmUpload" class="confirm-btn">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image View Modal -->
+    <div class="modal" id="imageViewModal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal" id="closeViewModal">&times;</span>
+            <img id="fullImage" src="" alt="Full Image">
+        </div>
+    </div>
+
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html>
