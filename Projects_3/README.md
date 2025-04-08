@@ -1,6 +1,7 @@
 # BlogGlow
 
-![BlogGlow Screenshot](https://via.placeholder.com/1200x600.png?text=BlogGlow+Screenshot)  
+![Screenshot 2025-04-08 203426](https://github.com/user-attachments/assets/21ed46f8-7069-4663-aa7f-e06cb78ffe42)
+
 *A simple, elegant blog platform showcasing projects in Web Development, Data Analytics, and Cloud technologies.*
 
 BlogGlow is a Django-based web application designed to display project stories in a visually appealing, responsive layout. It features categorized project sections, dynamic dates, estimated read times, and a toggle switch to alternate between Data Analytics and Cloud projects.
@@ -30,9 +31,3 @@ BlogGlow is a Django-based web application designed to display project stories i
 - Virtualenv (recommended)
 - Git
 
-## Setup Instructions
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/yourusername/blogglow.git
-cd blogglow
