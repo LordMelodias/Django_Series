@@ -13,7 +13,7 @@ BlogGlow is a Django-based web application designed to display project stories i
   - Clouds (toggle option)
 - **Responsive Design**: Adapts seamlessly to desktop, tablet, and mobile devices.
 - **Dynamic Content**: Shows actual project creation dates and estimated read times.
-- **Toggle UI**: Switch between Data Analytics and Clouds with a sleek, animated toggle.
+- **DropDown UI**: Switch between Data Analytics and Clouds with a sleek, animated DropDown.
 - **Image Handling**: Consistent 16:9 aspect ratio for project images with hover zoom effects.
 - **Comments**: Allows anonymous commenting on project detail pages.
 - **Modern Styling**: Uses Playfair Display and Roboto fonts, coral-themed gradients, and subtle animations.
