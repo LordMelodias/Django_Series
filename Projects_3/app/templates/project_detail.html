@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ project.title }} - BlogGlow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f5f6f5 url('https://www.transparenttextures.com/patterns/white-texture.png');
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .project-header {
+            background: linear-gradient(135deg, #a83248 0%, #ff5f6d 100%);
+            padding: 2.5rem;
+            text-align: center;
+            color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(255, 140, 95, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(30deg);
+            animation: shine 4s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            50% { transform: translateX(100%) rotate(30deg); }
+            100% { transform: translateX(-100%) rotate(30deg); }
+        }
+
+        .project-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr; /* Two columns on large screens */
+            gap: 1.5rem;
+            background: #fff;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .project-details {
+            padding: 0.5rem;
+        }
+
+        .project-image {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .project-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .project-image img:hover {
+            transform: scale(1.03);
+        }
+
+        .project-description, .tech-used, .issues-faced {
+            background: #fafafa;
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 1.2rem;
+            font-size: 1rem;
+            color: #555;
+            border-left: 3px solid #a83248;
+        }
+
+        h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #a83248;
+            margin-bottom: 0.8rem;
+        }
+
+        .additional-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .additional-images img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .additional-images img:hover {
+            transform: scale(1.05);
+        }
+
+        .interaction-section {
+            background: #fdfdfd;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        .comments-section {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .comment {
+            background: #f5f6f5;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .comment:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .comment p {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .comment-form {
+            margin-top: 1.2rem;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            min-height: 70px;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.9rem;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        .comment-form textarea:focus {
+            border-color: #a83248;
+            outline: none;
+            box-shadow: 0 0 4px rgba(255, 140, 95, 0.3);
+        }
+
+        .comment-form button {
+            padding: 0.5rem 1.2rem;
+            background: linear-gradient(135deg, #a83248, #ff5f6d);
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 8px rgba(255, 140, 95, 0.3);
+            width: 100%;
+        }
+
+        .comment-form button:hover {
+            background: linear-gradient(135deg, #ff7043, #ff4562);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(255, 140, 95, 0.4);
+        }
+
+        .back-link {
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+
+        .back-link a {
+            color: #a83248;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 0.4rem 1.2rem;
+            border: 2px solid #a83248;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link a:hover {
+            background: #a83248;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .main-content {
+                grid-template-columns: 1fr; /* Stack columns */
+                padding: 1rem;
+            }
+            .project-details, .interaction-section {
+                padding: 0;
+            }
+            .project-header {
+                padding: 2rem;
+            }
+            .project-header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 0 1rem;
+                margin: 1.5rem auto;
+            }
+            .project-header {
+                padding: 1.5rem;
+                border-radius: 10px;
+            }
+            .project-header h1 {
+                font-size: 1.8rem;
+            }
+            .main-content {
+                border-radius: 10px;
+                padding: 1rem;
+            }
+            h3 {
+                font-size: 1.3rem;
+            }
+            .project-description, .tech-used, .issues-faced {
+                padding: 1rem;
+                font-size: 0.95rem;
+            }
+            .project-image {
+                margin-bottom: 1rem;
+            }
+            .additional-images {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 0.8rem;
+            }
+            .interaction-section {
+                padding: 1rem;
+            }
+            .comments-section {
+                max-height: 300px;
+            }
+            .comment {
+                padding: 0.8rem;
+            }
+            .comment p {
+                font-size: 0.85rem;
+            }
+            .comment-form textarea {
+                min-height: 60px;
+                padding: 0.6rem;
+                font-size: 0.85rem;
+            }
+            .comment-form button {
+                padding: 0.4rem 1rem;
+                font-size: 0.85rem;
+            }
+            .back-link a {
+                font-size: 0.9rem;
+                padding: 0.3rem 1rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .project-header h1 {
+                font-size: 1.5rem;
+            }
+            .main-content {
+                padding: 0.8rem;
+            }
+            h3 {
+                font-size: 1.2rem;
+            }
+            .project-description, .tech-used, .issues-faced {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+            .additional-images {
+                grid-template-columns: 1fr; /* Single column for very small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="project-header">
+        <h1>{{ project.title }}</h1>
+    </div>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="project-details">
+                {% if project.image %}
+                    <div class="project-image">
+                        <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                    </div>
+                {% endif %}
+
+                <div class="project-description">
+                    <h3>Description</h3>
+                    <p>{{ project.description|linebreaksbr }}</p>
+                </div>
+
+                <div class="tech-used">
+                    <h3>Technologies Used</h3>
+                    <p>{{ project.technologies_used|linebreaksbr }}</p>
+                </div>
+
+                <div class="issues-faced">
+                    <h3>Issues Faced</h3>
+                    <p>{{ project.issues_faced|linebreaksbr }}</p>
+                </div>
+
+                <h3>Additional Images</h3>
+                <div class="additional-images">
+                    {% for img in project.images.all %}
+                        <img src="{{ img.image.url }}" alt="Additional Image">
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="interaction-section">
+                <div class="comments-section">
+                    <h3>Comments</h3>
+                    {% for comment in project.comments.all %}
+                        <div class="comment">
+                            <p><strong>{{ comment.user|default:"Anonymous" }}</strong>: {{ comment.content }} <br><small>{{ comment.created_at }}</small></p>
+                        </div>
+                    {% endfor %}
+                    <form class="comment-form" method="POST" action="{% url 'project-comment' project.id %}">
+                        {% csrf_token %}
+                        <textarea name="content" placeholder="Add your comment..." required></textarea>
+                        <button type="submit">Add Comment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="back-link">
+            <a href="{% url 'home' %}">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

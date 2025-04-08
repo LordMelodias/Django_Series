@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlogGlow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f5f6f5;
+            color: #333;
+        }
+
+        .header {
+            background: #a83248;
+            padding: 3rem 2rem;
+            text-align: center;
+            color: #fff;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            margin-top: 0.5rem;
+            font-weight: 400;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 clamp(1rem, 3vw, 2rem);
+        }
+
+        .category-section {
+            margin-bottom: 3rem;
+            display: none;
+        }
+
+        .category-section.active {
+            display: block;
+        }
+
+        .category-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            color: #a83248;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .category-title::after {
+            content: '';
+            width: 60px;
+            height: 3px;
+            background: #a83248;
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .dropdown-container {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .custom-select {
+            position: relative;
+            display: inline-block;
+            width: clamp(200px, 50vw, 300px);
+        }
+
+        .select-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: clamp(0.6rem, 2vw, 0.8rem) clamp(1rem, 2vw, 1.5rem);
+            font-family: 'Roboto', sans-serif;
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            font-weight: 700;
+            color: #fff;
+            background: #a83248;
+            border: 2px solid #ff7043;
+            border-radius: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .select-trigger:hover {
+            background: #ff7043;
+            border-color: #a83248;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .select-trigger::after {
+            content: '\25BC'; /* Down arrow */
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            color: #fff;
+        }
+
+        .select-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 2px solid #a83248;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 0.5rem;
+            display: none;
+            z-index: 10;
+        }
+
+        .select-options.show {
+            display: block;
+        }
+
+        .select-options li {
+            padding: clamp(0.5rem, 1.5vw, 0.7rem) clamp(1rem, 2vw, 1.5rem);
+            font-family: 'Roboto', sans-serif;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            color: #a83248;
+            background: #f5f6f5;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .select-options li:hover {
+            background: #ff7043;
+            color: #fff;
+        }
+
+        .select-options li:not(:last-child) {
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(clamp(260px, 30vw, 320px), 1fr));
+            gap: clamp(1rem, 3vw, 2rem);
+        }
+
+        .blog-post {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .blog-post:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .blog-image {
+            position: relative;
+            padding-top: 56.25%;
+            overflow: hidden;
+            background: #eee;
+        }
+
+        .blog-image img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.3s ease;
+        }
+
+        .blog-post:hover .blog-image img {
+            transform: scale(1.05);
+        }
+
+        .blog-content {
+            padding: clamp(1rem, 2vw, 1.5rem);
+        }
+
+        .blog-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
+            font-weight: 700;
+            color: #a83248;
+            margin-bottom: 0.6rem;
+        }
+
+        .blog-meta {
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            color: #888;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .blog-excerpt {
+            color: #555;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            margin-bottom: 1.2rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .read-more {
+            display: inline-block;
+            padding: clamp(0.5rem, 1.5vw, 0.6rem) clamp(1rem, 2vw, 1.5rem);
+            background: #a83248;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .read-more:hover {
+            background: #ff7043;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            background: #a83248;
+            color: #fff;
+            text-align: center;
+            padding: clamp(1.5rem, 3vw, 2rem);
+            margin-top: 3rem;
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+        }
+
+        .footer p {
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .header {
+                padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 3vw, 2rem);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 2vw, 1.5rem);
+            }
+            .custom-select {
+                width: clamp(180px, 60vw, 250px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: clamp(1rem, 2.5vw, 2rem) clamp(0.8rem, 2vw, 1rem);
+            }
+            .custom-select {
+                width: 100%;
+                max-width: 200px;
+            }
+            .blog-image {
+                padding-top: 60%;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .custom-select {
+                width: 100%;
+                max-width: 180px;
+            }
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>BlogGlow</h1>
+        <p>Simple Stories, Bright Moments</p>
+    </header>
+
+    <div class="container">
+        <div class="dropdown-container">
+            <div class="custom-select">
+                <div class="select-trigger" data-value="web">Web Development</div>
+                <ul class="select-options">
+                    <li data-value="web">Web Development</li>
+                    <li data-value="data">Data Analytics</li>
+                    <li data-value="cloud">Cloud</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="category-section active" id="webSection">
+            <h2 class="category-title">Web Development</h2>
+            <div class="blog-grid">
+                {% for project in web_projects %}
+                    <article class="blog-post">
+                        {% if project.image %}
+                            <div class="blog-image">
+                                <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                            </div>
+                        {% endif %}
+                        <div class="blog-content">
+                            <h2 class="blog-title">{{ project.title }}</h2>
+                            <div class="blog-meta">
+                                <span>{{ project.created_at|date:"F d, Y" }}</span>
+                                <span>{{ project.read_time }} min time</span>
+                            </div>
+                            <p class="blog-excerpt">{{ project.description }}</p>
+                            <a href="{% url 'project-detail' project.id %}" class="read-more">Read More</a>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="category-section" id="dataSection">
+            <h2 class="category-title">Data Analytics</h2>
+            <div class="blog-grid">
+                {% for project in data_projects %}
+                    <article class="blog-post">
+                        {% if project.image %}
+                            <div class="blog-image">
+                                <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                            </div>
+                        {% endif %}
+                        <div class="blog-content">
+                            <h2 class="blog-title">{{ project.title }}</h2>
+                            <div class="blog-meta">
+                                <span>{{ project.created_at|date:"F d, Y" }}</span>
+                                <span>{{ project.read_time }} min time</span>
+                            </div>
+                            <p class="blog-excerpt">{{ project.description }}</p>
+                            <a href="{% url 'project-detail' project.id %}" class="read-more">Read More</a>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="category-section" id="cloudSection">
+            <h2 class="category-title">Cloud</h2>
+            <div class="blog-grid">
+                {% for project in cloud_projects %}
+                    <article class="blog-post">
+                        {% if project.image %}
+                            <div class="blog-image">
+                                <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                            </div>
+                        {% endif %}
+                        <div class="blog-content">
+                            <h2 class="blog-title">{{ project.title }}</h2>
+                            <div class="blog-meta">
+                                <span>{{ project.created_at|date:"F d, Y" }}</span>
+                                <span>{{ project.read_time }} min time</span>
+                            </div>
+                            <p class="blog-excerpt">{{ project.description }}</p>
+                            <a href="{% url 'project-detail' project.id %}" class="read-more">Read More</a>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2025 BlogGlow. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const customSelect = document.querySelector('.custom-select');
+        const selectTrigger = customSelect.querySelector('.select-trigger');
+        const selectOptions = customSelect.querySelector('.select-options');
+        const options = selectOptions.querySelectorAll('li');
+        const categorySections = document.querySelectorAll('.category-section');
+
+        selectTrigger.addEventListener('click', () => {
+            selectOptions.classList.toggle('show');
+        });
+
+        options.forEach(option => {
+            option.addEventListener('click', () => {
+                const value = option.getAttribute('data-value');
+                selectTrigger.textContent = option.textContent;
+                selectTrigger.setAttribute('data-value', value);
+                selectOptions.classList.remove('show');
+
+                // Toggle category sections
+                categorySections.forEach(section => section.classList.remove('active'));
+                document.getElementById(`${value}Section`).classList.add('active');
+            });
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!customSelect.contains(e.target)) {
+                selectOptions.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>
