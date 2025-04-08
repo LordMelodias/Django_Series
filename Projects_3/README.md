@@ -20,7 +20,7 @@ BlogGlow is a Django-based web application designed to display project stories i
 
 ## Tech Stack
 - **Backend**: Django, Django REST Framework
-- **Frontend**: HTML, CSS (with custom styles), JavaScript (for toggle functionality)
+- **Frontend**: HTML, CSS (with custom styles), JavaScript (for DropDown functionality)
 - **Database**: SQLite (default, configurable to others)
 - **Fonts**: Google Fonts (Roboto, Playfair Display)
 - **Deployment**: Configurable for local development or production (e.g., with Gunicorn and PostgreSQL)
