@@ -31,3 +31,5 @@ BlogGlow is a Django-based web application designed to display project stories i
 - Virtualenv (recommended)
 - Git
 
+# View
+https://workforge.up.railway.app/
