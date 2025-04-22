@@ -11,21 +11,6 @@ def home(request):
     web_projects = Project.objects.filter(category='web')
     data_projects = Project.objects.filter(category='data')
     cloud_projects = Project.objects.filter(category='cloud')
-    
-    # Optional: Calculate read time dynamically if no read_time field
-    for project in web_projects:
-        if not hasattr(project, 'read_time'):
-            word_count = len(project.description.split())
-            project.read_time = max(1, round(word_count / 200))  # 200 words per minute
-    for project in data_projects:
-        if not hasattr(project, 'read_time'):
-            word_count = len(project.description.split())
-            project.read_time = max(1, round(word_count / 200))
-    for project in cloud_projects:
-        if not hasattr(project, 'read_time'):
-            word_count = len(project.description.split())
-            project.read_time = max(1, round(word_count / 200))
-
     return render(request, 'home.html', {
         'web_projects': web_projects,
         'data_projects': data_projects,
